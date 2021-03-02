@@ -14,7 +14,7 @@ MODE='default'
 START_TIME="`date +%s`"
 
 if [[ $MODE == 'default' ]]; then
-    timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://`hostname -f`:10001/${INTERNAL_DATABASE};transportMode=http" -i $INTERNAL_SETTINGSPATH -f $INTERNAL_QUERYPATH &>> $INTERNAL_LOG_PATH
+    timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://`hostname -f`:10000/${INTERNAL_DATABASE}" -i $INTERNAL_SETTINGSPATH -f $INTERNAL_QUERYPATH &>> $INTERNAL_LOG_PATH
     RETURN_VAL=$?
 elif [[ $MODE == 'esp' ]]; then
     AAD_DOMAIN='MY_DOMAIN.COM'
@@ -22,13 +22,13 @@ elif [[ $MODE == 'esp' ]]; then
     PASSWORD='YOURPASSWORD'
     kdestroy
     echo $PASSWORD | kinit $USERNAME
-    timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://`hostname -f`:10001/${INTERNAL_DATABASE};transportMode=http;httpPath=cliservice;principal=hive/_HOST@${AAD_DOMAIN}" -n $USERNAME -i $INTERNAL_SETTINGSPATH -f $INTERNAL_QUERYPATH &>> $INTERNAL_LOG_PATH
+    timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://`hostname -f`:10000/${INTERNAL_DATABASE};httpPath=cliservice;principal=hive/_HOST@${AAD_DOMAIN}" -n $USERNAME -i $INTERNAL_SETTINGSPATH -f $INTERNAL_QUERYPATH &>> $INTERNAL_LOG_PATH
     RETURN_VAL=$?
 elif [[ $MODE == 'gateway' ]]; then
     CLUSTERNAME='MYCLUSTER'
     USERNAME='admin'
     PASSWORD='YOURPASSWORD'
-    timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://${CLUSTERNAME}.azurehdinsight.net:443/${INTERNAL_DATABASE};ssl=true;transportMode=http;httpPath=/hive2" -n $USERNAME -p $PASSWORD -i $INTERNAL_SETTINGSPATH -f $INTERNAL_QUERYPATH &>> $INTERNAL_LOG_PATH
+    timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://${CLUSTERNAME}.azurehdinsight.net:443/${INTERNAL_DATABASE};ssl=true;httpPath=/hive2" -n $USERNAME -p $PASSWORD -i $INTERNAL_SETTINGSPATH -f $INTERNAL_QUERYPATH &>> $INTERNAL_LOG_PATH
     RETURN_VAL=$?
 else
     echo "MODE must be 'default' | 'esp' | 'gateway'"

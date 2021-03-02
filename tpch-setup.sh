@@ -66,7 +66,7 @@ echo "TPC-H text data generation complete."
 # Create the text/flat tables as external tables. These will be later be converted to ORCFile.
 echo "Loading text data into external tables."
 HOSTNAME_A=`hostname -f`
-BEELINEURL="beeline -u 'jdbc:hive2://$HOSTNAME_A:10001/;transportMode=http'"
+BEELINEURL="beeline -u 'jdbc:hive2://$HOSTNAME_A:10000/'"
 runcommand "$BEELINEURL -i settings/load-flat.sql -f ddl-tpch/bin_flat/alltables.sql --hivevar DB=tpch_text_${SCALE} --hivevar LOCATION=${DIR}/${SCALE}"
 
 # Create the optimized tables.

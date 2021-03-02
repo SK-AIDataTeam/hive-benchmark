@@ -83,7 +83,7 @@ function create_managed_tables() {
             --hivevar SCALE=${SCALE} \
             --hivevar SOURCE=${TEXT_DB} \
             --hivevar REDUCERS=${REDUCERS} \
-            --hivevar FILE=${FORMAT}"
+                        --hivevar FILE=${FORMAT}"
         echo -e "${t}:\n\t@$COMMAND $SILENCE && echo 'Optimizing table $t ($i/$total).'" >> $LOAD_FILE
         i=`expr $i + 1`
     done
@@ -123,7 +123,7 @@ function analyze_tables() {
 
 # --- SCRIPT START ---
 
-# DEBUG_SCRIPT="X"
+DEBUG_SCRIPT="X"
 SCALE=$1
 FORMAT=$2
 DIR=/tmp/tpcds-generate
@@ -144,7 +144,7 @@ if [[ "$FORMAT" != "orc" && "$FORMAT" != "parquet" ]]; then
 fi
 
 HOSTNAME=`hostname -f`
-BEELINEURL="beeline -u 'jdbc:hive2://$HOSTNAME:10001/;transportMode=http'"
+BEELINEURL="beeline -u 'jdbc:hive2://$HOSTNAME:10000/'"
 TEXT_DB="tpcds_text_${SCALE}"
 DATABASE="tpcds_bin_partitioned_${FORMAT}_${SCALE}"
 

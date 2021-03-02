@@ -38,9 +38,9 @@ MODE='default'
 ## Modifying Connection String
 File: `util_internalRunQuery.sh`
 
-The default method connects to the current node using port 10001. To change hostname or port modify ``` `hostname -f`:10001 ```
+The default method connects to the current node using port 10001. To change hostname or port modify ``` `hostname -f`:10000 ```
 ```
-timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://`hostname -f`:10001/${INTERNAL_DATABASE};transportMode=http"
+timeout $TIME_TO_TIMEOUT beeline -u "jdbc:hive2://`hostname -f`:10000/${INTERNAL_DATABASE}"
 ```
 
 # Further Troubleshooting
